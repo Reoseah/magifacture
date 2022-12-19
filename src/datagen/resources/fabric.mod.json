@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "magifacture-datagen",
+  "name": "Magifacture Data Generation",
+  "version": "0",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "reoseah.magifacture.data.MagifactureData"
+    ]
+  }
+}
