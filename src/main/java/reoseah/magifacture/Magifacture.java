@@ -2,25 +2,31 @@ package reoseah.magifacture;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.AbstractBlock;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.base.EmptyItemFluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.base.FullItemFluidStorage;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reoseah.magifacture.block.AlembicBlock;
+import reoseah.magifacture.block.CrematoriumBlock;
 import reoseah.magifacture.block.ExperienceBlock;
+import reoseah.magifacture.block.entity.*;
 import reoseah.magifacture.fluid.ExperienceFluid;
 
 public class Magifacture implements ModInitializer {
@@ -33,14 +39,16 @@ public class Magifacture implements ModInitializer {
     public void onInitialize() {
         Blocks.initialize();
         Items.initialize();
-
-        ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(entries -> {
-            entries.add(Items.EXPERIENCE_BUCKET);
-        });
+        Fluids.initialize();
+        BlockEntityTypes.initialize();
     }
 
     public static class Blocks {
         public static final Block EXPERIENCE = register("experience", new ExperienceBlock(FabricBlockSettings.of(Material.LAVA, MapColor.LIME).luminance(15).noCollision()));
+
+        public static final Block CREMATORIUM = register("crematorium", new CrematoriumBlock(FabricBlockSettings.of(Material.METAL, MapColor.GRAY).strength(3F).luminance(state -> state.get(Properties.LIT) ? 15 : 0)));
+        public static final Block ALEMBIC = register("alembic", new AlembicBlock(FabricBlockSettings.of(Material.METAL, MapColor.GRAY).strength(3F)));
+
 
         private static <T extends Block> T register(String name, T block) {
             return Registry.register(Registries.BLOCK, new Identifier("magifacture", name), block);
@@ -51,13 +59,24 @@ public class Magifacture implements ModInitializer {
     }
 
     public static class Items {
+        public static final Item CREMATORIUM = registerItemBlock(Blocks.CREMATORIUM);
+        public static final Item ALEMBIC = registerItemBlock(Blocks.ALEMBIC);
         public static final Item EXPERIENCE_BUCKET = register("experience_bucket", new BucketItem(Fluids.EXPERIENCE, new Item.Settings()));
 
         private static <T extends Item> T register(String name, T item) {
             return Registry.register(Registries.ITEM, new Identifier("magifacture", name), item);
         }
 
+        private static Item registerItemBlock(Block block) {
+            return Registry.register(Registries.ITEM, Registries.BLOCK.getId(block), new BlockItem(block, new Item.Settings()));
+        }
+
         public static void initialize() {
+            ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(entries -> {
+                entries.add(Items.CREMATORIUM);
+                entries.add(Items.ALEMBIC);
+                entries.add(Items.EXPERIENCE_BUCKET);
+            });
         }
     }
 
@@ -68,8 +87,23 @@ public class Magifacture implements ModInitializer {
             return Registry.register(Registries.FLUID, new Identifier("magifacture", name), fluid);
         }
 
+        @SuppressWarnings("UnstableApiUsage")
         public static void initialize() {
+            FluidStorage.ITEM.registerForItems((stack, context) -> new FullItemFluidStorage(context, net.minecraft.item.Items.GLASS_BOTTLE, FluidVariant.of(Fluids.EXPERIENCE), FluidConstants.BOTTLE), net.minecraft.item.Items.EXPERIENCE_BOTTLE);
+            FluidStorage.ITEM.registerForItems((stack, context) -> new EmptyItemFluidStorage(context, net.minecraft.item.Items.EXPERIENCE_BOTTLE, Fluids.EXPERIENCE, FluidConstants.BOTTLE), net.minecraft.item.Items.GLASS_BOTTLE);
         }
     }
 
+
+    public static class BlockEntityTypes {
+        public static final BlockEntityType<AlembicBlockEntity> ALEMBIC = register("alembic", FabricBlockEntityTypeBuilder.create(AlembicBlockEntity::new, Blocks.ALEMBIC).build());
+
+        public static <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType<T> entry) {
+            return Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier("magifacture", name), entry);
+        }
+
+        public static void initialize() {
+
+        }
+    }
 }

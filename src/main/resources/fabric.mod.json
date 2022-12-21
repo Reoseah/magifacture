@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "reoseah.magifacture.Magifacture"
+    ],
+    "client": [
+      "reoseah.magifacture.MagifactureClient"
     ]
   },
   "mixins": [

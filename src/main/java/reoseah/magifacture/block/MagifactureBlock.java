@@ -4,28 +4,17 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.text.Texts;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.List;
 
 /*
  * Contains common features for blocks that have an inventory:
@@ -34,7 +23,6 @@ import java.util.List;
  *   - open GUI on right click if BE implements NamedScreenHandlerFactory (override otherwise!)
  *
  * Additional features for blocks from the mod:
- *   - adds tooltip if lang key exist ("block.magifacture.<name>.tooltip")
  *   - facing the player if block state contains Properties.FACING or HORIZONTAL_FACING
  */
 public abstract class MagifactureBlock extends BlockWithEntity {
@@ -45,17 +33,6 @@ public abstract class MagifactureBlock extends BlockWithEntity {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        Identifier id = Registries.BLOCK.getId(this);
-        String langKey = "block." + id.getNamespace() + "." + id.getPath() + ".tooltip";
-        if (I18n.hasTranslation(langKey)) {
-            Arrays.stream(I18n.translate(langKey).split("\\n")).forEach(s -> {
-                tooltip.add(Texts.setStyleIfAbsent(Text.literal(s), Style.EMPTY.withColor(Formatting.GRAY)));
-            });
-        }
     }
 
     @Override
