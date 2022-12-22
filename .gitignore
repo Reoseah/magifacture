@@ -1,41 +1,22 @@
-# gradle
+# exclude all
+/*
 
-.gradle/
-build/
-out/
-classes/
+!README.md
+!src/
+!unused_resources/
+# minecraft data gen folder
+**/.cache
 
-# eclipse
+# git
+!.gitmodules
+!.gitignore
+!.github/
 
-*.launch
+# Gradle
+!gradlew
+!gradlew.bat
+!build.gradle
+!gradle.properties
+!settings.gradle
+!gradle/
 
-# idea
-
-.idea/
-*.iml
-*.ipr
-*.iws
-
-# vscode
-
-.settings/
-.vscode/
-bin/
-.classpath
-.project
-
-# macos
-
-*.DS_Store
-
-# fabric
-
-run/
-
-# java
-
-hs_err_*.log
-replay_*.log
-*.hprof
-*.jfr
-.cache/**
