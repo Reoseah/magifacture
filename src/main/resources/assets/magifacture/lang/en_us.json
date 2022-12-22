@@ -1,5 +1,13 @@
 {
   "itemGroup.magifacture.main": "Magifacture",
   "block.magifacture.experience": "Enchanting Essence",
-  "item.magifacture.experience_bucket": "Bucket of Enchanting Essence"
+  "block.magifacture.crematorium": "Crematorium",
+  "block.magifacture.alembic": "Alchemical Alembic",
+  "item.magifacture.experience_bucket": "Bucket of Enchanting Essence",
+  "fluid.minecraft.empty": "Empty",
+  "container.magifacture.alembic": "Alchemical Alembic",
+  "magifacture.amount_and_capacity": "%s / %s",
+  "magifacture.millibucket.amount": "%s mB",
+  "magifacture.millibucket.less_than_1": "<1 mB",
+  "magifacture.bucket.amount": "%s B"
 }

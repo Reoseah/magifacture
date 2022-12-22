@@ -13,8 +13,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 public class ExperienceBlock extends Block {
-    private static final int MILLIBUCKET_PER_XP = 20;
-    private static final int XP_PER_BUCKET = 1000 / MILLIBUCKET_PER_XP;
+    public static final int MILLIBUCKET_PER_XP = 20;
+    public static final int XP_PER_BUCKET = 1000 / MILLIBUCKET_PER_XP;
 
     public ExperienceBlock(Settings settings) {
         super(settings);
@@ -34,6 +34,7 @@ public class ExperienceBlock extends Block {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int xp = MathHelper.floor(XP_PER_BUCKET * (0.5F + random.nextFloat() / 2));
 

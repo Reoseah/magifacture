@@ -19,15 +19,21 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
+import net.minecraft.util.math.Direction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reoseah.magifacture.block.AlembicBlock;
 import reoseah.magifacture.block.CrematoriumBlock;
 import reoseah.magifacture.block.ExperienceBlock;
-import reoseah.magifacture.block.entity.*;
+import reoseah.magifacture.block.entity.AlembicBlockEntity;
 import reoseah.magifacture.fluid.ExperienceFluid;
+import reoseah.magifacture.item.ExperienceBucketItem;
+import reoseah.magifacture.screen.AlembicScreenHandler;
 
 public class Magifacture implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("magifacture");
@@ -41,6 +47,7 @@ public class Magifacture implements ModInitializer {
         Items.initialize();
         Fluids.initialize();
         BlockEntityTypes.initialize();
+        ScreenHandlerTypes.initialize();
     }
 
     public static class Blocks {
@@ -48,7 +55,6 @@ public class Magifacture implements ModInitializer {
 
         public static final Block CREMATORIUM = register("crematorium", new CrematoriumBlock(FabricBlockSettings.of(Material.METAL, MapColor.GRAY).strength(3F).luminance(state -> state.get(Properties.LIT) ? 15 : 0)));
         public static final Block ALEMBIC = register("alembic", new AlembicBlock(FabricBlockSettings.of(Material.METAL, MapColor.GRAY).strength(3F)));
-
 
         private static <T extends Block> T register(String name, T block) {
             return Registry.register(Registries.BLOCK, new Identifier("magifacture", name), block);
@@ -61,7 +67,7 @@ public class Magifacture implements ModInitializer {
     public static class Items {
         public static final Item CREMATORIUM = registerItemBlock(Blocks.CREMATORIUM);
         public static final Item ALEMBIC = registerItemBlock(Blocks.ALEMBIC);
-        public static final Item EXPERIENCE_BUCKET = register("experience_bucket", new BucketItem(Fluids.EXPERIENCE, new Item.Settings()));
+        public static final Item EXPERIENCE_BUCKET = register("experience_bucket", new ExperienceBucketItem(Fluids.EXPERIENCE, new Item.Settings().rarity(Rarity.RARE).recipeRemainder(net.minecraft.item.Items.BUCKET)));
 
         private static <T extends Item> T register(String name, T item) {
             return Registry.register(Registries.ITEM, new Identifier("magifacture", name), item);
@@ -89,17 +95,28 @@ public class Magifacture implements ModInitializer {
 
         @SuppressWarnings("UnstableApiUsage")
         public static void initialize() {
+            FluidStorage.combinedItemApiProvider(net.minecraft.item.Items.GLASS_BOTTLE).register(context -> new EmptyItemFluidStorage(context, net.minecraft.item.Items.EXPERIENCE_BOTTLE, Fluids.EXPERIENCE, FluidConstants.BOTTLE));
             FluidStorage.ITEM.registerForItems((stack, context) -> new FullItemFluidStorage(context, net.minecraft.item.Items.GLASS_BOTTLE, FluidVariant.of(Fluids.EXPERIENCE), FluidConstants.BOTTLE), net.minecraft.item.Items.EXPERIENCE_BOTTLE);
-            FluidStorage.ITEM.registerForItems((stack, context) -> new EmptyItemFluidStorage(context, net.minecraft.item.Items.EXPERIENCE_BOTTLE, Fluids.EXPERIENCE, FluidConstants.BOTTLE), net.minecraft.item.Items.GLASS_BOTTLE);
         }
     }
-
 
     public static class BlockEntityTypes {
         public static final BlockEntityType<AlembicBlockEntity> ALEMBIC = register("alembic", FabricBlockEntityTypeBuilder.create(AlembicBlockEntity::new, Blocks.ALEMBIC).build());
 
         public static <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType<T> entry) {
             return Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier("magifacture", name), entry);
+        }
+
+        public static void initialize() {
+            FluidStorage.SIDED.registerForBlockEntity((be, side) -> side != Direction.UP ? be.getTank() : null, ALEMBIC);
+        }
+    }
+
+    public static class ScreenHandlerTypes {
+        public static final ScreenHandlerType<AlembicScreenHandler> ALEMBIC = register("alembic", new ScreenHandlerType<>(AlembicScreenHandler::new));
+
+        public static <T extends ScreenHandler> ScreenHandlerType<T> register(String name, ScreenHandlerType<T> entry) {
+            return Registry.register(Registries.SCREEN_HANDLER, new Identifier("magifacture", name), entry);
         }
 
         public static void initialize() {

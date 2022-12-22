@@ -4,6 +4,9 @@
   "package": "reoseah.magifacture.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AccessibleBucketItem",
+    "AccessibleEmptyItemFluidStorage",
+    "FluidAccessor"
   ],
   "client": [
   ],
