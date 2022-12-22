@@ -28,6 +28,7 @@ public class MagifactureModelProvider extends FabricModelProvider {
         registerBlockItem(gen, Magifacture.Blocks.CREMATORIUM);
         registerBlockItem(gen, Magifacture.Blocks.ALEMBIC);
         gen.register(Magifacture.Items.EXPERIENCE_BUCKET, Models.GENERATED);
+        gen.register(Magifacture.Items.ASH, Models.GENERATED);
     }
 
     private static void registerBlockItem(ItemModelGenerator gen, Block block) {

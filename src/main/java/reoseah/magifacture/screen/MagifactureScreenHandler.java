@@ -52,6 +52,7 @@ public abstract class MagifactureScreenHandler extends ScreenHandler {
     }
 
     protected void addTank(SingleFluidStorage tank) {
+        // TODO: change this to take some NbtSerializable interface
         this.addSlot(new NbtCarryingSlot(() -> {
             NbtCompound nbt = new NbtCompound();
             tank.writeNbt(nbt);

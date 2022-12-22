@@ -19,13 +19,7 @@ import reoseah.magifacture.screen.AlembicScreenHandler;
 import reoseah.magifacture.util.FluidUtils;
 
 public class AlembicBlockEntity extends MagifactureBlockEntity implements SidedInventory {
-
-    protected final SingleFluidStorage tank = new SingleFluidStorage() {
-        @Override
-        protected long getCapacity(FluidVariant variant) {
-            return 4000 * 81;
-        }
-    };
+    protected final SingleFluidStorage tank = SingleFluidStorage.withFixedCapacity(4000 * 81, this::markDirty);
 
     public AlembicBlockEntity(BlockPos pos, BlockState state) {
         super(Magifacture.BlockEntityTypes.ALEMBIC, pos, state);
@@ -46,17 +40,16 @@ public class AlembicBlockEntity extends MagifactureBlockEntity implements SidedI
     }
 
     @Override
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
-        this.tank.readNbt(tag);
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        this.tank.readNbt(nbt);
     }
 
     @Override
-    public void writeNbt(NbtCompound tag) {
-        super.writeNbt(tag);
-        this.tank.writeNbt(tag);
+    public void writeNbt(NbtCompound nbt) {
+        super.writeNbt(nbt);
+        this.tank.writeNbt(nbt);
     }
-
 
     // region SidedInventory
     private static final int EMPTY_SLOT = 0;
@@ -85,10 +78,6 @@ public class AlembicBlockEntity extends MagifactureBlockEntity implements SidedI
     }
     // endregion
 
-    public ResourceAmount<FluidVariant> getFluidVolume() {
-        return new ResourceAmount<>(this.tank.variant, this.tank.amount);
-    }
-
     public static void tickServer(@SuppressWarnings("unused") World world, @SuppressWarnings("unused") BlockPos pos, @SuppressWarnings("unused") BlockState state, AlembicBlockEntity be) {
         FluidUtils.tryFillItem(be.tank, be, EMPTY_SLOT, FILLED_SLOT);
     }
@@ -96,5 +85,4 @@ public class AlembicBlockEntity extends MagifactureBlockEntity implements SidedI
     public SingleFluidStorage getTank() {
         return this.tank;
     }
-
 }

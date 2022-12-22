@@ -8,12 +8,14 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import reoseah.magifacture.client.screen.AlembicScreen;
+import reoseah.magifacture.client.screen.CrematoriumScreen;
 
 public class MagifactureClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         setupFluidTextures(Magifacture.Fluids.EXPERIENCE);
 
+        HandledScreens.register(Magifacture.ScreenHandlerTypes.CREMATORIUM, CrematoriumScreen::new);
         HandledScreens.register(Magifacture.ScreenHandlerTypes.ALEMBIC, AlembicScreen::new);
     }
 

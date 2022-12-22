@@ -5,6 +5,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -17,6 +19,9 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import reoseah.magifacture.Magifacture;
+import reoseah.magifacture.block.entity.AlembicBlockEntity;
+import reoseah.magifacture.block.entity.CrematoriumBlockEntity;
 
 public class CrematoriumBlock extends MagifactureBlock {
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
@@ -35,7 +40,13 @@ public class CrematoriumBlock extends MagifactureBlock {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new CrematoriumBlockEntity(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return world.isClient ? null : checkType(type, Magifacture.BlockEntityTypes.CREMATORIUM, CrematoriumBlockEntity::tickServer);
     }
 
     @Override

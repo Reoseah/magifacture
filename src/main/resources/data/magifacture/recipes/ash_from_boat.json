@@ -1,0 +1,11 @@
+{
+  "type": "magifacture:simple_cremation",
+  "ingredient": {
+    "tag": "minecraft:boats"
+  },
+  "result": {
+    "item": "magifacture:ash",
+    "count": 5
+  },
+  "duration": 100
+}

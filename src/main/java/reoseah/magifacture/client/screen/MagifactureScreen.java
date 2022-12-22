@@ -11,6 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import reoseah.magifacture.screen.MagifactureScreenHandler;
 
 import java.util.ArrayList;
@@ -56,10 +57,8 @@ public abstract class MagifactureScreen<T extends MagifactureScreenHandler> exte
         for (TankDisplay display : this.tanks) {
             FluidVariant volume = display.tank.variant;
             if (!volume.isBlank()) {
-                int fluidHeight = (int) (display.tank.amount * display.height / display.tank.getCapacity());
-                if (fluidHeight < 0) {
-                    fluidHeight = 1;
-                }
+                int fluidHeight = MathHelper.clamp(Math.round(display.tank.amount * (float) display.height / display.tank.getCapacity()), 1, display.height);
+
                 FluidClientUtils.drawFluidColumn(matrices, volume, this.x + display.x, this.y + display.y + display.height - fluidHeight, fluidHeight, this.getZOffset());
                 if (display.width > 16) {
                     FluidClientUtils.drawFluidColumn(matrices, volume, this.x + display.x + 16, this.y + display.y + display.height - fluidHeight, fluidHeight, this.getZOffset());

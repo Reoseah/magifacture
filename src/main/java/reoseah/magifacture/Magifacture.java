@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -17,6 +18,9 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.*;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandler;
@@ -31,9 +35,13 @@ import reoseah.magifacture.block.AlembicBlock;
 import reoseah.magifacture.block.CrematoriumBlock;
 import reoseah.magifacture.block.ExperienceBlock;
 import reoseah.magifacture.block.entity.AlembicBlockEntity;
+import reoseah.magifacture.block.entity.CrematoriumBlockEntity;
 import reoseah.magifacture.fluid.ExperienceFluid;
 import reoseah.magifacture.item.ExperienceBucketItem;
+import reoseah.magifacture.recipe.CremationRecipe;
+import reoseah.magifacture.recipe.SimpleCremationRecipe;
 import reoseah.magifacture.screen.AlembicScreenHandler;
+import reoseah.magifacture.screen.CrematoriumScreenHandler;
 
 public class Magifacture implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("magifacture");
@@ -47,6 +55,8 @@ public class Magifacture implements ModInitializer {
         Items.initialize();
         Fluids.initialize();
         BlockEntityTypes.initialize();
+        RecipeTypes.initialize();
+        RecipeSerializers.initialize();
         ScreenHandlerTypes.initialize();
     }
 
@@ -68,6 +78,7 @@ public class Magifacture implements ModInitializer {
         public static final Item CREMATORIUM = registerItemBlock(Blocks.CREMATORIUM);
         public static final Item ALEMBIC = registerItemBlock(Blocks.ALEMBIC);
         public static final Item EXPERIENCE_BUCKET = register("experience_bucket", new ExperienceBucketItem(Fluids.EXPERIENCE, new Item.Settings().rarity(Rarity.RARE).recipeRemainder(net.minecraft.item.Items.BUCKET)));
+        public static final Item ASH = register("ash", new Item(new Item.Settings()));
 
         private static <T extends Item> T register(String name, T item) {
             return Registry.register(Registries.ITEM, new Identifier("magifacture", name), item);
@@ -83,6 +94,8 @@ public class Magifacture implements ModInitializer {
                 entries.add(Items.ALEMBIC);
                 entries.add(Items.EXPERIENCE_BUCKET);
             });
+
+            CompostingChanceRegistry.INSTANCE.add(ASH, 0.05F);
         }
     }
 
@@ -102,6 +115,7 @@ public class Magifacture implements ModInitializer {
 
     public static class BlockEntityTypes {
         public static final BlockEntityType<AlembicBlockEntity> ALEMBIC = register("alembic", FabricBlockEntityTypeBuilder.create(AlembicBlockEntity::new, Blocks.ALEMBIC).build());
+        public static final BlockEntityType<CrematoriumBlockEntity> CREMATORIUM = register("crematorium", FabricBlockEntityTypeBuilder.create(CrematoriumBlockEntity::new, Blocks.CREMATORIUM).build());
 
         public static <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType<T> entry) {
             return Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier("magifacture", name), entry);
@@ -112,7 +126,37 @@ public class Magifacture implements ModInitializer {
         }
     }
 
+    public static class RecipeTypes {
+        public static final RecipeType<CremationRecipe> CREMATION = register("cremation", new RecipeType<>() {
+            @Override
+            public String toString() {
+                return "magifacture:cremation";
+            }
+        });
+
+        public static <T extends Recipe<?>> RecipeType<T> register(String name, RecipeType<T> entry) {
+            return Registry.register(Registries.RECIPE_TYPE, new Identifier("magifacture", name), entry);
+        }
+
+        public static void initialize() {
+
+        }
+    }
+
+    public static class RecipeSerializers {
+        public static final RecipeSerializer<?> SIMPLE_CREMATION = register("simple_cremation", new SimpleCremationRecipe.Serializer(200));
+
+        public static <T extends Recipe<?>> RecipeSerializer<T> register(String name, RecipeSerializer<T> entry) {
+            return Registry.register(Registries.RECIPE_SERIALIZER, new Identifier("magifacture", name), entry);
+        }
+
+        public static void initialize() {
+
+        }
+    }
+
     public static class ScreenHandlerTypes {
+        public static final ScreenHandlerType<CrematoriumScreenHandler> CREMATORIUM = register("crematorium", new ScreenHandlerType<>(CrematoriumScreenHandler::new));
         public static final ScreenHandlerType<AlembicScreenHandler> ALEMBIC = register("alembic", new ScreenHandlerType<>(AlembicScreenHandler::new));
 
         public static <T extends ScreenHandler> ScreenHandlerType<T> register(String name, ScreenHandlerType<T> entry) {
@@ -123,4 +167,5 @@ public class Magifacture implements ModInitializer {
 
         }
     }
+
 }

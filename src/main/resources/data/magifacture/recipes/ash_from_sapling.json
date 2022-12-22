@@ -1,0 +1,10 @@
+{
+  "type": "magifacture:simple_cremation",
+  "ingredient": {
+    "tag": "minecraft:saplings"
+  },
+  "result": {
+    "item": "magifacture:ash"
+  },
+  "duration": 100
+}

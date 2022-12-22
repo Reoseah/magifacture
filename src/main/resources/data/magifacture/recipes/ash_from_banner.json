@@ -1,0 +1,11 @@
+{
+  "type": "magifacture:simple_cremation",
+  "ingredient": {
+    "tag": "minecraft:banners"
+  },
+  "result": {
+    "item": "magifacture:ash",
+    "count": 6
+  },
+  "duration": 100
+}
