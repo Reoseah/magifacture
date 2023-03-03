@@ -4,16 +4,17 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
-import reoseah.magifacture.Magifacture;
 import reoseah.magifacture.block.entity.AlembicBlockEntity;
 import reoseah.magifacture.screen.slot.MagifactureSlot;
 
 public class AlembicScreenHandler extends MagifactureScreenHandler {
+    public static final ScreenHandlerType<AlembicScreenHandler> TYPE = new ScreenHandlerType<>(AlembicScreenHandler::new);
     protected final SingleFluidStorage tank;
 
     private AlembicScreenHandler(int syncId, Inventory inventory, SingleFluidStorage tank, PlayerInventory playerInv) {
-        super(Magifacture.ScreenHandlerTypes.ALEMBIC, syncId, inventory);
+        super(TYPE, syncId, inventory);
         this.addSlot(new Slot(this.inventory, 0, 98, 18));
         this.addSlot(new MagifactureSlot(this.inventory, 1, 98, 54).insertable(false));
         this.addPlayerSlots(playerInv);

@@ -1,6 +1,5 @@
 package reoseah.magifacture.recipe;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -11,9 +10,9 @@ import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.world.World;
-import reoseah.magifacture.Magifacture;
 
 public class SimpleCremationRecipe extends CremationRecipe {
+    public static final RecipeSerializer<?> SERIALIZER = new Serializer(200);
     protected final Ingredient ingredient;
     protected final int count;
     protected final ItemStack output;
@@ -44,7 +43,7 @@ public class SimpleCremationRecipe extends CremationRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return Magifacture.RecipeSerializers.SIMPLE_CREMATION;
+        return SERIALIZER;
     }
 
     @Override

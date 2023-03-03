@@ -25,13 +25,10 @@ public class FluidUtils {
             return;
         }
 
-        if (tank.amount >= FluidConstants.BUCKET
-                && emptyStack.getItem() instanceof AccessibleBucketItem bucket
-                && bucket.getFluid() == Fluids.EMPTY) {
+        if (tank.amount >= FluidConstants.BUCKET && emptyStack.getItem() instanceof AccessibleBucketItem bucket && bucket.getFluid() == Fluids.EMPTY) {
             Fluid fluid = tank.variant.getFluid();
             Item filledBucket = fluid.getBucketItem();
-            if ((filledBucket instanceof AccessibleBucketItem accessor && accessor.getFluid() != fluid)
-                    || filledBucket.getRecipeRemainder() != emptyStack.getItem()) {
+            if ((filledBucket instanceof AccessibleBucketItem accessor && accessor.getFluid() != fluid) || filledBucket.getRecipeRemainder() != emptyStack.getItem()) {
                 return;
             }
             if (moveItem(inventory, emptySlot, filledSlot, new ItemStack(filledBucket))) {
@@ -44,8 +41,7 @@ public class FluidUtils {
             for (Storage<FluidVariant> part : ((List<Storage<FluidVariant>>) combined.parts)) {
                 if (part instanceof AccessibleEmptyItemFluidStorage emptyStorage) {
                     ItemStack filledStack = emptyStorage.getEmptyToFullMapping().apply(ItemVariant.of(emptyStack)).toStack();
-                    if (tank.variant.getFluid() == emptyStorage.getInsertableFluid()
-                            && tank.amount >= emptyStorage.getInsertableAmount()) {
+                    if (tank.variant.getFluid() == emptyStorage.getInsertableFluid() && tank.amount >= emptyStorage.getInsertableAmount()) {
                         if (moveItem(inventory, emptySlot, filledSlot, filledStack)) {
                             tank.amount -= emptyStorage.getInsertableAmount();
                             break;

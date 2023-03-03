@@ -4,16 +4,17 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
-import reoseah.magifacture.Magifacture;
 import reoseah.magifacture.block.entity.CrematoriumBlockEntity;
 import reoseah.magifacture.screen.slot.MagifactureSlot;
 
 public class CrematoriumScreenHandler extends MagifactureScreenHandler {
+    public static final ScreenHandlerType<CrematoriumScreenHandler> TYPE = new ScreenHandlerType<>(CrematoriumScreenHandler::new);
     protected final SingleFluidStorage tank;
 
     private CrematoriumScreenHandler(int syncId, Inventory inventory, SingleFluidStorage tank, PlayerInventory playerInv) {
-        super(Magifacture.ScreenHandlerTypes.CREMATORIUM, syncId, inventory);
+        super(TYPE, syncId, inventory);
 
         this.addSlot(new Slot(this.inventory, 0, 18, 17));
         this.addSlot(new Slot(this.inventory, 1, 18, 53));

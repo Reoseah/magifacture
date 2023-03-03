@@ -8,6 +8,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Fluid.class)
 public interface FluidAccessor {
-	@Invoker
-	BlockState callToBlockState(FluidState state);
+    @Invoker
+    BlockState callToBlockState(FluidState state);
 }

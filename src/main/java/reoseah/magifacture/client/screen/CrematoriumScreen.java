@@ -1,10 +1,13 @@
 package reoseah.magifacture.client.screen;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import reoseah.magifacture.screen.CrematoriumScreenHandler;
 
+@Environment(EnvType.CLIENT)
 public class CrematoriumScreen extends MagifactureScreen<CrematoriumScreenHandler> {
     private static final Identifier TEXTURE = new Identifier("magifacture", "textures/gui/crematorium.png");
 

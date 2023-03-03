@@ -3,16 +3,21 @@ package reoseah.magifacture.item;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BucketItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import reoseah.magifacture.block.ExperienceBlock;
+import reoseah.magifacture.fluid.ExperienceFluid;
 
 public class ExperienceBucketItem extends BucketItem {
-    public ExperienceBucketItem(Fluid fluid, Settings settings) {
+    public static final Item BUCKET = new ExperienceBucketItem(ExperienceFluid.EXPERIENCE, new Settings().rarity(Rarity.RARE).maxCount(1).recipeRemainder(Items.BUCKET));
+
+    protected ExperienceBucketItem(Fluid fluid, Settings settings) {
         super(fluid, settings);
     }
 

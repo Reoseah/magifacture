@@ -1,8 +1,10 @@
 package reoseah.magifacture.block.entity;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
@@ -14,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import reoseah.magifacture.Magifacture;
+import reoseah.magifacture.block.CrematoriumBlock;
 import reoseah.magifacture.recipe.CremationRecipe;
 import reoseah.magifacture.screen.CrematoriumScreenHandler;
 
@@ -22,13 +24,14 @@ import java.util.Optional;
 
 @SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "OptionalAssignedToNull"})
 public class CrematoriumBlockEntity extends FueledBlockEntity implements SidedInventory {
+    public static final BlockEntityType<CrematoriumBlockEntity> TYPE = FabricBlockEntityTypeBuilder.create(CrematoriumBlockEntity::new, CrematoriumBlock.INSTANCE).build();
     protected final SingleFluidStorage tank = SingleFluidStorage.withFixedCapacity(4000 * 81, this::markDirty);
 
     protected int recipeProgress;
     protected @Nullable Optional<? extends CremationRecipe> cachedRecipe;
 
     public CrematoriumBlockEntity(BlockPos pos, BlockState state) {
-        super(Magifacture.BlockEntityTypes.CREMATORIUM, pos, state);
+        super(TYPE, pos, state);
     }
 
     @Override
@@ -117,7 +120,7 @@ public class CrematoriumBlockEntity extends FueledBlockEntity implements SidedIn
             return null;
         }
         if (this.cachedRecipe == null && !this.slots.get(0).isEmpty()) {
-            Optional<? extends CremationRecipe> recipe = world.getRecipeManager().getFirstMatch(Magifacture.RecipeTypes.CREMATION, this, world);
+            Optional<? extends CremationRecipe> recipe = world.getRecipeManager().getFirstMatch(CremationRecipe.TYPE, this, world);
             if (recipe.isPresent()) {
                 this.cachedRecipe = recipe;
             }

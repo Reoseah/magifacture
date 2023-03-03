@@ -11,17 +11,20 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
-import reoseah.magifacture.Magifacture;
+import reoseah.magifacture.block.ExperienceBlock;
+import reoseah.magifacture.item.ExperienceBucketItem;
 
 public class ExperienceFluid extends Fluid {
+    public static final Fluid EXPERIENCE = new ExperienceFluid();
+
     @Override
     public Item getBucketItem() {
-        return Magifacture.Items.EXPERIENCE_BUCKET;
+        return ExperienceBucketItem.BUCKET;
     }
 
     @Override
     protected BlockState toBlockState(FluidState state) {
-        return Magifacture.Blocks.EXPERIENCE.getDefaultState();
+        return ExperienceBlock.INSTANCE.getDefaultState();
     }
 
     @Override

@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import reoseah.magifacture.client.FluidClientUtils;
 import reoseah.magifacture.screen.MagifactureScreenHandler;
 
 import java.util.ArrayList;

@@ -87,11 +87,11 @@ public abstract class MagifactureBlockEntity extends LockableContainerBlockEntit
     /**
      * Common implementation that should work for most of the vanilla-like inventories.
      *
-     * @return translation text of "container.[mod_id].[block_entity_name]"
+     * @return translation text of "block.[mod_id].[block_entity_name]"
      */
     @Override
     protected Text getContainerName() {
-        return Text.translatable(Util.createTranslationKey("container", Registries.BLOCK_ENTITY_TYPE.getId(this.getType())));
+        return Text.translatable(Util.createTranslationKey("block", Registries.BLOCK_ENTITY_TYPE.getId(this.getType())));
     }
 
     protected boolean canFullyAddStack(int slot, ItemStack offer) {

@@ -8,6 +8,10 @@ import net.minecraft.registry.Registries;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import reoseah.magifacture.Magifacture;
+import reoseah.magifacture.block.AlembicBlock;
+import reoseah.magifacture.block.CrematoriumBlock;
+import reoseah.magifacture.block.ExperienceBlock;
+import reoseah.magifacture.item.ExperienceBucketItem;
 
 import java.util.Optional;
 
@@ -18,17 +22,17 @@ public class MagifactureModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator gen) {
-        gen.registerSimpleCubeAll(Magifacture.Blocks.EXPERIENCE);
-        gen.blockStateCollector.accept(VariantsBlockStateSupplier.create(Magifacture.Blocks.CREMATORIUM).coordinate(BlockStateModelGenerator.createBooleanModelMap(Properties.LIT, new Identifier("magifacture:block/crematorium_on"), new Identifier("magifacture:block/crematorium"))).coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates()));
-        gen.registerSimpleState(Magifacture.Blocks.ALEMBIC);
+        gen.registerSimpleCubeAll(ExperienceBlock.INSTANCE);
+        gen.blockStateCollector.accept(VariantsBlockStateSupplier.create(CrematoriumBlock.INSTANCE).coordinate(BlockStateModelGenerator.createBooleanModelMap(Properties.LIT, new Identifier("magifacture:block/crematorium_on"), new Identifier("magifacture:block/crematorium"))).coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates()));
+        gen.registerSimpleState(AlembicBlock.INSTANCE);
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator gen) {
-        registerBlockItem(gen, Magifacture.Blocks.CREMATORIUM);
-        registerBlockItem(gen, Magifacture.Blocks.ALEMBIC);
-        gen.register(Magifacture.Items.EXPERIENCE_BUCKET, Models.GENERATED);
-        gen.register(Magifacture.Items.ASH, Models.GENERATED);
+        registerBlockItem(gen, CrematoriumBlock.INSTANCE);
+        registerBlockItem(gen, AlembicBlock.INSTANCE);
+        gen.register(ExperienceBucketItem.BUCKET, Models.GENERATED);
+        gen.register(Magifacture.ASH, Models.GENERATED);
     }
 
     private static void registerBlockItem(ItemModelGenerator gen, Block block) {

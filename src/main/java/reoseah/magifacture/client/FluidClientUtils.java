@@ -1,4 +1,4 @@
-package reoseah.magifacture.client.screen;
+package reoseah.magifacture.client;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

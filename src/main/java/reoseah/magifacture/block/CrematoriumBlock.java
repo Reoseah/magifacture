@@ -2,11 +2,17 @@ package reoseah.magifacture.block;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.MapColor;
+import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -19,15 +25,16 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import reoseah.magifacture.Magifacture;
-import reoseah.magifacture.block.entity.AlembicBlockEntity;
 import reoseah.magifacture.block.entity.CrematoriumBlockEntity;
 
 public class CrematoriumBlock extends MagifactureBlock {
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final BooleanProperty LIT = Properties.LIT;
 
-    public CrematoriumBlock(Settings settings) {
+    public static final Block INSTANCE = new CrematoriumBlock(FabricBlockSettings.of(Material.METAL, MapColor.GRAY).strength(3F).luminance(state -> state.get(Properties.LIT) ? 15 : 0));
+    public static final Item ITEM = new BlockItem(INSTANCE, new FabricItemSettings());
+
+    protected CrematoriumBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(LIT, false));
     }
@@ -46,7 +53,7 @@ public class CrematoriumBlock extends MagifactureBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : checkType(type, Magifacture.BlockEntityTypes.CREMATORIUM, CrematoriumBlockEntity::tickServer);
+        return world.isClient ? null : checkType(type, CrematoriumBlockEntity.TYPE, CrematoriumBlockEntity::tickServer);
     }
 
     @Override

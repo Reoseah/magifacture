@@ -5,9 +5,15 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
-import reoseah.magifacture.Magifacture;
 
 public abstract class CremationRecipe implements Recipe<Inventory> {
+    public static final RecipeType<CremationRecipe> TYPE = new RecipeType<>() {
+        @Override
+        public String toString() {
+            return "magifacture:cremation";
+        }
+    };
+
     protected final Identifier id;
 
     public CremationRecipe(Identifier id) {
@@ -32,7 +38,7 @@ public abstract class CremationRecipe implements Recipe<Inventory> {
 
     @Override
     public RecipeType<?> getType() {
-        return Magifacture.RecipeTypes.CREMATION;
+        return TYPE;
     }
 
     @Override
