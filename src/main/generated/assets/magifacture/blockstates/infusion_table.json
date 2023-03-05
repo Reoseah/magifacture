@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "magifacture:block/infusion_table",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "magifacture:block/infusion_table"
+    },
+    "facing=south": {
+      "model": "magifacture:block/infusion_table",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "magifacture:block/infusion_table",
+      "y": 270
+    }
+  }
+}

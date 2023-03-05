@@ -25,6 +25,14 @@ public class FluidUtils {
             return;
         }
 
+        fillItemWithoutTransactions(tank, inventory, emptySlot, filledSlot, emptyStack);
+
+        if (tank.amount == 0) {
+            tank.variant = FluidVariant.blank();
+        }
+    }
+
+    private static void fillItemWithoutTransactions(SingleFluidStorage tank, Inventory inventory, int emptySlot, int filledSlot, ItemStack emptyStack) {
         if (tank.amount >= FluidConstants.BUCKET && emptyStack.getItem() instanceof AccessibleBucketItem bucket && bucket.getFluid() == Fluids.EMPTY) {
             Fluid fluid = tank.variant.getFluid();
             Item filledBucket = fluid.getBucketItem();
@@ -37,14 +45,14 @@ public class FluidUtils {
             }
         }
         Storage<FluidVariant> storage = FluidStorage.ITEM.find(emptyStack, ContainerItemContext.withInitial(emptyStack));
-        if (storage instanceof CombinedStorage<?, ?> combined) {
-            for (Storage<FluidVariant> part : ((List<Storage<FluidVariant>>) combined.parts)) {
+        if (storage instanceof CombinedStorage<FluidVariant, ?> combined) {
+            for (Storage<FluidVariant> part : combined.parts) {
                 if (part instanceof AccessibleEmptyItemFluidStorage emptyStorage) {
                     ItemStack filledStack = emptyStorage.getEmptyToFullMapping().apply(ItemVariant.of(emptyStack)).toStack();
                     if (tank.variant.getFluid() == emptyStorage.getInsertableFluid() && tank.amount >= emptyStorage.getInsertableAmount()) {
                         if (moveItem(inventory, emptySlot, filledSlot, filledStack)) {
                             tank.amount -= emptyStorage.getInsertableAmount();
-                            break;
+                            return;
                         }
                     }
                 }
@@ -57,7 +65,7 @@ public class FluidUtils {
         if (!currentOutputStack.isEmpty() && !ItemStack.canCombine(currentOutputStack, outputStack)) {
             return false;
         }
-        if (!currentOutputStack.isEmpty() && currentOutputStack.getCount() >= Math.min(currentOutputStack.getCount(), inventory.getMaxCountPerStack())) {
+        if (!currentOutputStack.isEmpty() && currentOutputStack.getCount() >= Math.min(currentOutputStack.getMaxCount(), inventory.getMaxCountPerStack())) {
             return false;
         }
         inventory.getStack(inputSlot).decrement(1);

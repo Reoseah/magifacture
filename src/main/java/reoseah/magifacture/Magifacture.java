@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import reoseah.magifacture.block.AlembicBlock;
 import reoseah.magifacture.block.CrematoriumBlock;
 import reoseah.magifacture.block.ExperienceBlock;
+import reoseah.magifacture.block.InfusionTableBlock;
 import reoseah.magifacture.block.entity.AlembicBlockEntity;
 import reoseah.magifacture.block.entity.CrematoriumBlockEntity;
 import reoseah.magifacture.fluid.ExperienceFluid;
@@ -43,9 +44,11 @@ public class Magifacture implements ModInitializer {
         Registry.register(Registries.BLOCK, "magifacture:experience", ExperienceBlock.INSTANCE);
         Registry.register(Registries.BLOCK, "magifacture:crematorium", CrematoriumBlock.INSTANCE);
         Registry.register(Registries.BLOCK, "magifacture:alembic", AlembicBlock.INSTANCE);
+        Registry.register(Registries.BLOCK, "magifacture:infusion_table", InfusionTableBlock.INSTANCE);
 
         Registry.register(Registries.ITEM, "magifacture:crematorium", CrematoriumBlock.ITEM);
         Registry.register(Registries.ITEM, "magifacture:alembic", AlembicBlock.ITEM);
+        Registry.register(Registries.ITEM, "magifacture:infusion_table", InfusionTableBlock.ITEM);
         Registry.register(Registries.ITEM, "magifacture:experience_bucket", ExperienceBucketItem.BUCKET);
         Registry.register(Registries.ITEM, "magifacture:ash", ASH);
 
@@ -63,6 +66,7 @@ public class Magifacture implements ModInitializer {
         ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(entries -> {
             entries.add(CrematoriumBlock.ITEM);
             entries.add(AlembicBlock.ITEM);
+            entries.add(InfusionTableBlock.ITEM);
             entries.add(ExperienceBucketItem.BUCKET);
         });
         CompostingChanceRegistry.INSTANCE.add(ASH, 0.05F);

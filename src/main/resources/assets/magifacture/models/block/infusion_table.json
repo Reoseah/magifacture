@@ -1,0 +1,24 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "particle": "magifacture:block/infusion_table_side",
+    "side": "magifacture:block/infusion_table_side",
+    "front": "magifacture:block/infusion_table_front",
+    "bottom": "block/furnace_top",
+    "top": "magifacture:block/infusion_table_top"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 14, 16 ],
+      "faces": {
+        "north": { "texture": "#front" },
+        "south": { "texture": "#side" },
+        "east": { "texture": "#side" },
+        "west": { "texture": "#side" },
+        "up": { "texture": "#top" },
+        "down": { "texture": "#bottom" }
+      }
+    }
+  ]
+}

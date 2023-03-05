@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import reoseah.magifacture.block.AlembicBlock;
 import reoseah.magifacture.block.CrematoriumBlock;
+import reoseah.magifacture.block.InfusionTableBlock;
 
 class MagifactureBlockLootTableProvider extends FabricBlockLootTableProvider {
     public MagifactureBlockLootTableProvider(FabricDataOutput output) {
@@ -14,5 +15,6 @@ class MagifactureBlockLootTableProvider extends FabricBlockLootTableProvider {
     public void generate() {
         this.addDrop(CrematoriumBlock.INSTANCE);
         this.addDrop(AlembicBlock.INSTANCE);
+        this.addDrop(InfusionTableBlock.INSTANCE);
     }
 }

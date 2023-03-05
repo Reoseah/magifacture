@@ -7,7 +7,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import reoseah.magifacture.block.entity.AlembicBlockEntity;
-import reoseah.magifacture.screen.slot.MagifactureSlot;
+import reoseah.magifacture.screen.slot.MagifactureOutputSlot;
 
 public class AlembicScreenHandler extends MagifactureScreenHandler {
     public static final ScreenHandlerType<AlembicScreenHandler> TYPE = new ScreenHandlerType<>(AlembicScreenHandler::new);
@@ -16,7 +16,7 @@ public class AlembicScreenHandler extends MagifactureScreenHandler {
     private AlembicScreenHandler(int syncId, Inventory inventory, SingleFluidStorage tank, PlayerInventory playerInv) {
         super(TYPE, syncId, inventory);
         this.addSlot(new Slot(this.inventory, 0, 98, 18));
-        this.addSlot(new MagifactureSlot(this.inventory, 1, 98, 54).insertable(false));
+        this.addSlot(new MagifactureOutputSlot(this.inventory, 1, 98, 54));
         this.addPlayerSlots(playerInv);
 
         this.addTank(this.tank = tank);

@@ -11,6 +11,7 @@ import reoseah.magifacture.Magifacture;
 import reoseah.magifacture.block.AlembicBlock;
 import reoseah.magifacture.block.CrematoriumBlock;
 import reoseah.magifacture.block.ExperienceBlock;
+import reoseah.magifacture.block.InfusionTableBlock;
 import reoseah.magifacture.item.ExperienceBucketItem;
 
 import java.util.Optional;
@@ -25,12 +26,14 @@ public class MagifactureModelProvider extends FabricModelProvider {
         gen.registerSimpleCubeAll(ExperienceBlock.INSTANCE);
         gen.blockStateCollector.accept(VariantsBlockStateSupplier.create(CrematoriumBlock.INSTANCE).coordinate(BlockStateModelGenerator.createBooleanModelMap(Properties.LIT, new Identifier("magifacture:block/crematorium_on"), new Identifier("magifacture:block/crematorium"))).coordinate(BlockStateModelGenerator.createNorthDefaultHorizontalRotationStates()));
         gen.registerSimpleState(AlembicBlock.INSTANCE);
+        gen.registerNorthDefaultHorizontalRotation(InfusionTableBlock.INSTANCE);
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator gen) {
         registerBlockItem(gen, CrematoriumBlock.INSTANCE);
         registerBlockItem(gen, AlembicBlock.INSTANCE);
+        registerBlockItem(gen, InfusionTableBlock.INSTANCE);
         gen.register(ExperienceBucketItem.BUCKET, Models.GENERATED);
         gen.register(Magifacture.ASH, Models.GENERATED);
     }
